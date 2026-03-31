@@ -5,23 +5,32 @@ import ResultsPage from './pages/ResultsPage';
 import './styles/App.css';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState('start');
+    const [currentPage, setCurrentPage] = useState('start');
+    const [gameStats, setGameStats] = useState({ time: '00:00', status: '' });
 
-  return (
-      <div className="app-container">
-        {currentPage === 'start' && (
-            <StartPage onStart={() => setCurrentPage('game')} />
-        )}
+    const handleFinishGame = (time, status) => {
+        setGameStats({ time, status });
+        setCurrentPage('results');
+    };
 
-        {currentPage === 'game' && (
-            <GamePage onFinish={() => setCurrentPage('results')} />
-        )}
+    return (
+        <div className="app-container">
+            {currentPage === 'start' && (
+                <StartPage onStart={() => setCurrentPage('game')} />
+            )}
 
-        {currentPage === 'results' && (
-            <ResultsPage onRestart={() => setCurrentPage('start')} />
-        )}
-      </div>
-  );
+            {currentPage === 'game' && (
+                <GamePage onFinish={handleFinishGame} />
+            )}
+
+            {currentPage === 'results' && (
+                <ResultsPage
+                    stats={gameStats}
+                    onRestart={() => setCurrentPage('start')}
+                />
+            )}
+        </div>
+    );
 }
 
 export default App;
