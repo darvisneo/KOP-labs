@@ -1,26 +1,36 @@
 import '../styles/Sudoku.css';
 
-function SudokuGrid() {
-    const cells = Array.from({ length: 81 }, (_, i) => i);
-
+function SudokuGrid({ board, initialBoard, onCellChange }) {
     return (
         <div className="sudoku-grid">
-            {cells.map((index) => {
-                const row = Math.floor(index / 9);
-                const col = index % 9;
+            {board.map((row, rowIndex) =>
+                row.map((cellValue, colIndex) => {
+                    const isRightBorder = colIndex === 2 || colIndex === 5;
+                    const isBottomBorder = rowIndex === 2 || rowIndex === 5;
+                    const isEditable = initialBoard[rowIndex][colIndex] === 0;
 
-                const isRightBorder = col === 2 || col === 5;
-                const isBottomBorder = row === 2 || row === 5;
+                    let cellClasses = 'sudoku-cell';
+                    if (isRightBorder) cellClasses += ' border-right';
+                    if (isBottomBorder) cellClasses += ' border-bottom';
+                    if (!isEditable) cellClasses += ' readonly';
 
-                let cellClasses = 'sudoku-cell';
-                if (isRightBorder) cellClasses += ' border-right';
-                if (isBottomBorder) cellClasses += ' border-bottom';
-
-                return (
-                    <div key={index} className={cellClasses}>
-                    </div>
-                );
-            })}
+                    return (
+                        <div key={`${rowIndex}-${colIndex}`} className={cellClasses}>
+                            {isEditable ? (
+                                <input
+                                    type="text"
+                                    maxLength="1"
+                                    value={cellValue === 0 ? '' : cellValue}
+                                    onChange={(e) => onCellChange(rowIndex, colIndex, e.target.value)}
+                                    className="sudoku-input"
+                                />
+                            ) : (
+                                <span className="sudoku-fixed-value">{cellValue}</span>
+                            )}
+                        </div>
+                    );
+                })
+            )}
         </div>
     );
 }
