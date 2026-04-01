@@ -16,6 +16,9 @@ const FULL_BOARD = [
 export const useSudoku = () => {
     const { settings } = useContext(SettingsContext);
 
+    const [mistakes, setMistakes] = useState(0);
+    const maxMistakes = 3;
+
     const generateBoard = useCallback(() => {
         let attempts = settings.difficulty === 'easy' ? 20 : settings.difficulty === 'medium' ? 40 : 60;
         const newBoard = FULL_BOARD.map(row => [...row]);
@@ -38,6 +41,11 @@ export const useSudoku = () => {
         if (value !== '' && !/^[1-9]$/.test(value)) return;
         const numValue = value === '' ? 0 : parseInt(value, 10);
 
+        if (numValue !== 0 && numValue !== FULL_BOARD[row][col]) {
+            setMistakes(prev => prev + 1);
+            return;
+        }
+
         setBoard((prevBoard) => {
             const newBoard = prevBoard.map((r) => [...r]);
             newBoard[row][col] = numValue;
@@ -45,7 +53,15 @@ export const useSudoku = () => {
         });
     }, []);
 
+    const resetBoard = useCallback(() => {
+        setBoard(initialBoard.map(row => [...row]));
+        setMistakes(0);
+    }, [initialBoard]);
+
     const isBoardFull = () => board.every((row) => row.every((cell) => cell !== 0));
 
-    return { board, initialBoard, updateCell, isBoardFull };
+    return {
+        board, initialBoard, updateCell, isBoardFull,
+        mistakes, maxMistakes, resetBoard
+    };
 };
