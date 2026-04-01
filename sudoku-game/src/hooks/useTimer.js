@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 export const useTimer = (isActive) => {
     const [seconds, setSeconds] = useState(0);
@@ -6,19 +6,16 @@ export const useTimer = (isActive) => {
     useEffect(() => {
         let interval = null;
         if (isActive) {
-            interval = setInterval(() => {
-                setSeconds((seconds) => seconds + 1);
-            }, 1000);
+            interval = setInterval(() => setSeconds(s => s + 1), 1000);
         } else if (!isActive && seconds !== 0) {
             clearInterval(interval);
         }
         return () => clearInterval(interval);
     }, [isActive, seconds]);
 
-    // час у вигляді MM:SS
-    const formattedTime = `${Math.floor(seconds / 60)
-        .toString()
-        .padStart(2, '0')}:${(seconds % 60).toString().padStart(2, '0')}`;
+    const resetTimer = useCallback(() => setSeconds(0), []);
 
-    return { seconds, formattedTime };
+    const formattedTime = `${Math.floor(seconds / 60).toString().padStart(2, '0')}:${(seconds % 60).toString().padStart(2, '0')}`;
+
+    return { seconds, formattedTime, resetTimer };
 };
