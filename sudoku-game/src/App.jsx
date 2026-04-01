@@ -1,35 +1,21 @@
-import { useState } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import StartPage from './pages/StartPage';
 import GamePage from './pages/GamePage';
-import ResultsPage from './pages/ResultsPage';
-import './styles/App.css';
+import styles from './styles/App.module.css'; // Імпортуємо стилі як об'єкт
 
 function App() {
-    const [currentPage, setCurrentPage] = useState('start');
-    const [gameStats, setGameStats] = useState({ time: '00:00', status: '' });
-
-    const handleFinishGame = (time, status) => {
-        setGameStats({ time, status });
-        setCurrentPage('results');
-    };
-
     return (
-        <div className="app-container">
-            {currentPage === 'start' && (
-                <StartPage onStart={() => setCurrentPage('game')} />
-            )}
+        <BrowserRouter>
+            <div className={styles.appContainer}>
+                <Routes>
+                    <Route path="/" element={<StartPage />} />
 
-            {currentPage === 'game' && (
-                <GamePage onFinish={handleFinishGame} />
-            )}
+                    <Route path="/game/:userId" element={<GamePage />} />
 
-            {currentPage === 'results' && (
-                <ResultsPage
-                    stats={gameStats}
-                    onRestart={() => setCurrentPage('start')}
-                />
-            )}
-        </div>
+                    <Route path="*" element={<Navigate to="/" replace />} />
+                </Routes>
+            </div>
+        </BrowserRouter>
     );
 }
 

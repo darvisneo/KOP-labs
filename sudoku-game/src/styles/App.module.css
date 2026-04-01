@@ -17,7 +17,7 @@ body {
     min-height: 100vh;
 }
 
-.app-container {
+.appContainer {
     background: white;
     padding: 40px;
     border-radius: 12px;
@@ -48,50 +48,50 @@ body {
     opacity: 0.8;
 }
 
-.primary-btn { background-color: var(--primary-color); }
-.danger-btn { background-color: var(--danger-color); }
-.secondary-btn { background-color: var(--secondary-color); }
+.primaryBtn { background-color: var(--primary-color); }
+.dangerBtn { background-color: var(--danger-color); }
+.secondaryBtn { background-color: var(--secondary-color); }
 
-.game-controls {
+.gameControls {
     display: flex;
     gap: 15px;
     margin-top: 20px;
 }
 
-.stats-container {
+.statsContainer {
     background: #f1f1f1;
     padding: 20px;
     border-radius: 8px;
     width: 100%;
 }
 
-.settings-form {
+.settingsForm {
     display: flex;
     flex-direction: column;
     gap: 15px;
     width: 300px;
 }
 
-.form-group {
+.formGroup {
     display: flex;
     flex-direction: column;
     text-align: left;
 }
 
-.form-input {
+.formInput {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 16px;
 }
 
-.error-text {
+.errorText {
     color: var(--danger-color);
     font-size: 12px;
     margin: 5px 0 0 0;
 }
 
-.modal-overlay {
+.modalOverlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -104,7 +104,7 @@ body {
     z-index: 1000;
 }
 
-.modal-content {
+.modalContent {
     background: white;
     padding: 30px;
     border-radius: 12px;
@@ -113,7 +113,7 @@ body {
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
-.modal-actions {
+.modalActions {
     display: flex;
     justify-content: center;
     gap: 15px;
